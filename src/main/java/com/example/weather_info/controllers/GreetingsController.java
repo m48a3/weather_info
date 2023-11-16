@@ -6,17 +6,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
 @Controller
 public class GreetingsController {
-    private final Users_repo users_repo;
+    @Autowired
+    private Users_repo users_repo;
 
-    public GreetingsController(Users_repo users_repo) {
-        this.users_repo = users_repo;
-    }
 
     @GetMapping("")
     public String greetingPage(){
@@ -37,5 +36,17 @@ public class GreetingsController {
         List<User> users = (List<User>) users_repo.findAll();
         model.addAttribute("users",users);
         return "adminPage";
+    }
+    @PostMapping
+    public String registerAdd(@RequestParam String name,
+                              @RequestParam String password,
+                              @RequestParam String city){
+        User user = new User();
+        user.setName(name);
+        user.setPassword(password);
+        user.setCity(city);
+        user.setAdmin(false);
+        users_repo.save(user);
+        return "greetingPage";
     }
 }

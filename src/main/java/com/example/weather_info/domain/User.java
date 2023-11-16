@@ -8,7 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Getter
-@Entity
+@Entity(name = "usr")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -20,6 +20,15 @@ public class User {
     private String password;
     private String city;
     private boolean admin;
+    public User(){
+
+    }
+    public User (String name, String password,String city,boolean admin){
+        this.name = name;
+        this.password = password;
+        this.city = city;
+        this.admin = admin;
+    }
 
     public void setName(String name) {
         this.name = name;
